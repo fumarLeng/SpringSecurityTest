@@ -20,15 +20,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                //关闭csrf
+                //關閉csrf
                 .csrf().disable()
-                //不通过Session获取SecurityContext
+                //不通過Session獲取SecurityContext
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                // 对于登录接口 允许匿名访问
+                // 對於登錄接口 允許匿名訪問
                 .antMatchers("/user/login").anonymous()
-                // 除上面外的所有请求全部需要鉴权认证
+                // 除上面外的所有請求全部需要認證
                 .anyRequest().authenticated();
     }
 
