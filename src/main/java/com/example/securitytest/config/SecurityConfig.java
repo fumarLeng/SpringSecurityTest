@@ -22,8 +22,8 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
+//    @Autowired
+//    private AuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
     @Autowired
@@ -60,15 +60,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 對於登錄接口 允許匿名訪問
-                .antMatchers("/user/login").anonymous()
+                .antMatchers("/user/login","/user/test/*").anonymous()
                 // 除上面外的所有請求全部需要認證
                 .anyRequest().authenticated();
 
-        //設定異常處理器
-        http.exceptionHandling()
-                //設定認證失敗處理器
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler);
+//        //設定異常處理器
+//        http.exceptionHandling()
+//                //設定認證失敗處理器
+//                .authenticationEntryPoint(authenticationEntryPoint)
+//                .accessDeniedHandler(accessDeniedHandler);
 
         //增加Filter
         http

@@ -28,6 +28,7 @@ public class LoginServiceImpl implements LoginService {
     public ResponseResult login(User user) {
         //先用username跟password封裝成認證用的訊息令牌
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+        System.out.println(user);
         //再用這個認證訊息令牌去認證
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         if (Objects.isNull(authentication)) {
@@ -36,14 +37,16 @@ public class LoginServiceImpl implements LoginService {
 
         //用userid生成token
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        String userId = loginUser.getUser().getId().toString();
-        String jwt = JwtUtil.createJWT(userId);
+        System.out.println(loginUser);
+        Long userId = loginUser.getUser().getId();
+        System.out.println(userId);
+        String jwt = JwtUtil.createToken(userId);
 
         //authenticate存到redis
         redisCache.setCacheObject("login:" + userId, loginUser);
         //再把token給前端
         HashMap<String, String> map = new HashMap<>();
-        map.put("token", jwt);
+        map.put("token", "ABC");
         return new ResponseResult(200, "登入成功", map);
     }
 

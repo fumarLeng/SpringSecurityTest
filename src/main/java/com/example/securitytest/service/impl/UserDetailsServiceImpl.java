@@ -1,6 +1,7 @@
 package com.example.securitytest.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.securitytest.mapper.MenuMapper;
 import com.example.securitytest.mapper.UserMapper;
 import com.example.securitytest.model.User;
@@ -24,11 +25,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+        System.out.println("進入 UserDetailsServiceImpl 了");
+        System.out.println(username);
         //用會員名稱拿到訊息
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>();
-        queryWrapper.eq(User::getUserName, username);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
+        System.out.println("queryWrapper" );
+        queryWrapper.eq("user_name", username);
         User user = userMapper.selectOne(queryWrapper);
+        if (Objects.isNull(user)) {
+            System.out.println("是NULL");
+        } else {
+            System.out.println("loadUserByUsername : " + user);
+
+        }
 
         //如果找不到要丟異常
         if (Objects.isNull(user)) {

@@ -27,7 +27,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-
+        System.out.println("進入filter");
         //先拿到 token
         String token = request.getHeader("token");
         if (!StringUtils.hasText(token)) {
@@ -39,7 +39,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //解析 token
         String userId;
         try {
-            Claims claims = JwtUtil.parseJWT(token);
+            Claims claims = JwtUtil.parseToken(token);
             userId = claims.getSubject();
         } catch (Exception e) {
             e.printStackTrace();
