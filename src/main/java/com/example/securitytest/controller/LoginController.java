@@ -22,5 +22,13 @@ public class LoginController {
         return result;
     }
 
+    @PostMapping("/user/logout")
+    public ResponseResult logout() {
+
+        ResponseResult result = loginService.logout();
+
+        return result;
+    }
+
 
 }
