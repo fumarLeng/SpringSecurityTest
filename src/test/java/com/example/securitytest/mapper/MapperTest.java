@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,11 +39,4 @@ public class MapperTest {
         System.out.println("新增成功 : " + count + "筆");
     }
 
-    @Test
-    public void tteesstt() {
-        int i = 0;
-        for (; i < 10; i++) {
-            System.out.println("Hello" + (i = i + 1));
-        }
-    }
 }

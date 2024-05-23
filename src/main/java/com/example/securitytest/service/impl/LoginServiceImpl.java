@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class LoginServiceImpl implements LoginService {
     private RedisCache redisCache;
 
     @Override
-    public ResponseResult<User> login(User user) {
+    public ResponseResult login(User user) {
         //先用username跟password封裝成認證用的訊息令牌
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
         //再用這個認證訊息令牌去認證
@@ -48,6 +49,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseResult<Void> logout() {
-        return null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userid = loginUser.getUser().getId();
+        redisCache.deleteObject("login:" + userid);
+        return new ResponseResult<>(200, "登出成功");
     }
 }
